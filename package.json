@@ -1,0 +1,20 @@
+{
+  "name": "hytane.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Threadrypper",
+  "license": "GPL-3.0-only",
+  "packageManager": "pnpm@9.15.4",
+  "devDependencies": {
+    "@types/node": "^24.0.14"
+  },
+  "dependencies": {
+    "oceanic.js": "^1.12.0"
+  }
+}
