@@ -1,4 +1,5 @@
-/** @import { FunctionID, ITaskClosures } from '../../../index' */
+const { InstructionManager } = require('../managers/InstructionManager');
+/** @import { FunctionID, Instruction, ITaskClosures } from '../../../index' */
 
 /**
  * Generates a random function ID.
@@ -85,6 +86,12 @@ class Task {
      * @type {Task[]}
      */
     overloads = [];
+
+    /**
+     * The instruction data of this task.
+     * @type {Instruction | null}
+     */
+    data = null;
 
     /**
      * Creates a new task.
@@ -226,6 +233,13 @@ class Task {
         this.states.handled = true;
         return this;
     };
+
+    /**
+     * Fetch the data that belongs to this task.
+     */
+    fetchData() {
+        this.data = InstructionManager.fetch(this.name);
+    }
 
     /**
      * Check whether the task was marked as handled.
@@ -471,6 +485,9 @@ class Lexer {
 
         // Set the task name.
         task.setName(name);
+
+        // Fetch the instruction data for this task.
+        task.fetchData();
 
         // Parse the content if any.
         if (this.#c() === Lexer.separator) {

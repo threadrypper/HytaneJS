@@ -1,5 +1,8 @@
 /** @import { Instruction } from '../../../index' */
 
+const { recursiveCollectFiles } = require('../../utils/recursiveCollectFiles');
+const { join } = require('node:path');
+
 /**
  * The global registry of functions.
  * @type {Record<string, Instruction>}
@@ -27,6 +30,21 @@ class InstructionManager {
      */
     static fetch(name) {
         return functions[name.toLowerCase()] ?? null;
+    }
+
+    /**
+     * Load instructions from the given path.
+     * @param {string} path - The path to load instructions from.
+     * @returns {void}
+     */
+    static load(
+        path = join(__dirname, '../../instructions')
+    ) {
+        const paths = recursiveCollectFiles(path);
+
+        for (const file of paths) {
+            InstructionManager.register(require(file));
+        }
     }
 
     /**

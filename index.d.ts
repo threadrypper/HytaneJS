@@ -62,6 +62,10 @@ export declare class Lexer {
  */
 export interface HytaneCommand {
     /**
+     * The command code.
+     */
+    code: string
+    /**
      * The compiled tasks for this command.
      */
     __compiled__?: Task[]

@@ -17,6 +17,11 @@ class Scope {
     #parent = null;
 
     /**
+     * Whether stop the execution of code.
+     */
+    #stop = false;
+
+    /**
      * The variables for this scope.
      * @type {Map<string, string>}
      */
@@ -65,12 +70,26 @@ class Scope {
         return child;
     };
 
+    /**
+     * Makes stop the code.
+     * @param {boolean} state - Stop state.
+     * @returns {Scope}
+     */
+    makeStop(state = true) {
+        this.#stop = state;
+        return this;
+    }
+
     get command() {
         return this.#command;
     }
 
     get variables() {
         return this.#variables;
+    }
+
+    get mustStop() {
+        return this.#stop;
     }
 };
 
