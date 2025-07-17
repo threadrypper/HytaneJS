@@ -1,4 +1,4 @@
-import { Client } from 'oceanic.js';
+import { Client, ClientEvents, ClientOptions } from 'oceanic.js';
 import { Task } from './src/classes/core/Lexer';
 import { Scope } from './src';
 /**
@@ -115,6 +115,25 @@ export interface Instruction {
     example?:       string;
     output?:        ArgType;
     run:            (fn: Task, scope: Scope, args?: string[]) => Promise<string | undefined> | string | undefined;
+};
+
+/**
+ * The available discord client events.
+ */
+export type HytaneEvents = `on${Capitalize<keyof ClientEvents>}`;
+
+/**
+ * Hytane Discord client options.
+ */
+export interface HytaneClientOptions extends ClientOptions {
+    /**
+     * Event names to listen to.
+     */
+    events: HytaneEvents[] | null;
+    /**
+     * Prefixes to call client commands.
+     */
+    prefixes: string[] | null;
 };
 
 /**

@@ -1,4 +1,5 @@
 const { InstructionManager } = require('../managers/InstructionManager');
+const { debugMainFunction } = require('../../utils/debugMainFunction');
 /** @import { FunctionID, Instruction, ITaskClosures } from '../../../index' */
 
 /**
@@ -562,17 +563,23 @@ class Lexer {
 
         // Compiling the nested tasks.
         let argi = 0;
-        for (const arg of args) {
-            const lexer = new Lexer(arg, false, Lexer.separator, this.#path);
+        for (const argString of args) {
+            const lexer = new Lexer(argString, false, Lexer.separator, this.#path);
             const overloads = lexer.compile();
 
             // Giving each overload a parent ID and adding them to the parent task.
             for (const overload of overloads) {
                 overload.parentId = task.id;
-                overload.from = argi++;
+                overload.from = argi;
                 overload.path = this.#path;
+
+                // task.inside = task.inside.replace(overload.toString, overload.id);
+                // task.fields[argi] = task.fields[argi].replace(overload.toString, overload.id);
+
                 task.overloads.push(overload);
             };
+
+            argi++; // Continue to the next arg.
         };
     }
 };

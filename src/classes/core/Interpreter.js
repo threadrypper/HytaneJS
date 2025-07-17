@@ -27,56 +27,13 @@ class Interpreter {
         for (let idx = 0; idx < tasks.length; idx++) {
             // Getting the current task.
             const task = tasks[idx];
-            
-            // Checking if the data of this instruction exists.
-            if (task.data === null) {
-                throw new Error(`"${task.name}" is not a function!`);
-            }
-
-            // Checking for nullish fields to run right now.
-            if (task.fields === null && task.data.parameters) {
-                const requiredArgs = task.data.parameters.filter((a) => a.optional === false);
-                throw new Error(`"${task.name}" expects "${requiredArgs.length}" parameters but got "0"!`);
-            };
-
-            // Checking for enough parameters.
-            const requiredArgs = (task.data.parameters ?? []).filter((a) => a.optional === false).length;
-            const gotArgs = task.fields.length;
-            if (requiredArgs > gotArgs) {
-                throw new Error(`"${task.name}" expects "${requiredArgs}" parameters but got "${gotArgs}"!`);
-            };
-
-            // Parsing the task fields.
-            const fields = task.fields ?? [];
-            /** @type {string[]} */
-            const parsedFields = [];
-            let fieldIdx = 0;
-            for (const field of fields) {
-                // Copying the field value.
-                let parsedValue = field;
-                const overloads = task.overloads.filter((o) => o.from === fieldIdx);
-                if (overloads.length === 0) {
-                    parsedFields.push(parsedValue);
-                    fieldIdx++;
-                    continue;
-                }
-
-                const result = await Interpreter.run(overloads, scope);
-                parsedValue = parsedValue.replace()
-                parsedFields.push(parsedValue);
-
-                fieldIdx++;
-            };
-
-            const instructionResult = await task.data.run(task, scope, parsedFields ?? undefined);
-            output = output.replace(task.toString, instructionResult === undefined ? '' : instructionResult);
 
             // Stop the execution of code if allowed.
             if (scope.mustStop) break;
         }
 
         // Return the result.
-        return output;
+        return output.trim();
     }
 };
 
