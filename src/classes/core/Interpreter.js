@@ -5,7 +5,7 @@ const { Scope } = require('./Scope');
 const MAIN_FUNCTION = 'MAIN_FUNCTION';
 
 /**
- * Interpretes HytenaJS code.
+ * Interpretes HytaneJS code.
  */
 class Interpreter {
     /**
